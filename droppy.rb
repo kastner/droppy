@@ -1,9 +1,6 @@
 require 'sinatra'
 require 'dropbox_sdk'
 
-TOKEN_PATH = "/tmp/oauth2_token"
-TOKEN_SECRET_PATH = "/tmp/oauth2_secret"
-
 configure do
   enable :sessions
 end
@@ -28,8 +25,8 @@ before do
   @client = nil
   @session = DropboxSession.new(ENV["DROPBOX_KEY"], ENV["DROPBOX_SECRET"])
 
-  if File.exists?(TOKEN_PATH) && File.exists?(TOKEN_SECRET_PATH)
-    @session.set_access_token(open(TOKEN_PATH).read.chomp, open(TOKEN_SECRET_PATH).read.chomp)
+  if session[:token]
+    @session.set_access_token(session[:token].key, session[:token].secret)
     db_type = (ENV["DROPBOX_TYPE"]) ? ENV["DROPBOX_TYPE"].to_sym : :dropbox
     @client = DropboxClient.new(@session, db_type)
   end
@@ -66,10 +63,8 @@ get '/auth' do
   if request_token = session[:request_token]
     @session.set_request_token(request_token.key, request_token.secret)
     token = @session.get_access_token
-    raise token.inspect
-    open(TOKEN_PATH, 'w') {|f| f.puts token.key}
-    open(TOKEN_SECRET_PATH, 'w') {|f| f.puts token.secret}
-
+    # raise token.inspect
+    session[:token] = token
     redirect '/'
   else
     erb "Sorry, must have expired"
