@@ -1,0 +1,34 @@
+<div class="row span12">
+  <h2>Files</h2>
+  <div class="span10">
+    <table id="fileList" class="zebra-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Date</th>
+          <th>Size</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @files["contents"].each do |file| %>
+        <tr>
+          <td>
+            <a href="/get/<%= file["path"].gsub(/^#{@files["path"]}\//, '') %>"><%= file["path"].gsub(/^#{@files["path"]}\//, '') %></a>
+          </td>
+          <td><%= file["modified"] %></td>
+          <td><%= file["size"] %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<script>
+  setTimeout(function() {
+    $(function() {
+      $("table#fileList").tablesorter();
+    });    
+  }, 200);
+</script>
