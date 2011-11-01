@@ -25,8 +25,9 @@ before do
   @client = nil
   @session = DropboxSession.new(ENV["DROPBOX_KEY"], ENV["DROPBOX_SECRET"])
 
-  if session[:token]
-    @session.set_access_token(session[:token].key, session[:token].secret)
+  if ENV["DROPPY_TOKEN"]
+    (key, secret) = ENV["DROPPY_TOKEN"].split(":")
+    @session.set_access_token(key, secret)
     db_type = (ENV["DROPBOX_TYPE"]) ? ENV["DROPBOX_TYPE"].to_sym : :dropbox
     @client = DropboxClient.new(@session, db_type)
   end
@@ -63,9 +64,7 @@ get '/auth' do
   if request_token = session[:request_token]
     @session.set_request_token(request_token.key, request_token.secret)
     token = @session.get_access_token
-    # raise token.inspect
-    session[:token] = token
-    redirect '/'
+    erb "Here is your DROPPY_TOKEN=#{token.key}:#{token.secret}"
   else
     erb "Sorry, must have expired"
   end
