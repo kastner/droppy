@@ -6,7 +6,8 @@ A simple web app for watching a folder on dropbox and providing links to downloa
 Setup
 -----
 
-1. Make a new dropbox user
+1. Clone this repo locally: `git clone https://github.com/kastner/droppy.git`
+1. Make a new dropbox user (Optional, but a whole lot safer)
 1. Start an app in dropbox
   1. Create a new app here: [dropbox.com/developers/apply](https://www.dropbox.com/developers/apply)
   1. Click "Create an App"
@@ -14,7 +15,7 @@ Setup
   1. **important** pick "Full Dropbox" for Access Level
   1. Copy the KEY and SECRET
 1. Share one of your dropbox folders with this new user (It's a good idea to create a new one - by default, the app will use a folder named `droppy`)
-1. Run this (see **Install** below)
+1. Run this app (see **Install** below)
 
 
 Install
@@ -25,7 +26,7 @@ Install
 1. `gem install bundler`
 1. `gem install foreman`
 1. `bundle install`
-1. edit `.env` put these lines in:
+1. create `.env` put these lines in:
   1. `DROPBOX_KEY=key_from_before`
   1. `DROPBOX_SECRET=secret_from_before`
 1. `foreman start`
