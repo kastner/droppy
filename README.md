@@ -41,8 +41,9 @@ Install
 1. `gem install heroku`
 1. `heroku create --stack cedar <whatever name you want>`
 1. `git push heroku master`
-1. `heroku config add DROPBOX_KEY=app_key`
-1. `heroku config add DROPBOX_SECRET=app_secret`
+1. `heroku config:add DROPBOX_KEY=app_key`
+1. `heroku config:add DROPBOX_SECRET=app_secret`
+1. **alternate method** if you have it working locally, you can just do `heroku config:add $(cat .env)`
 1. `heroku open`
 1. It will take you to dropbox, authorize the app. You will be redirected back and it will tell you the new DROPBOX_TOKEN
 1. `heroku config add DROPBOX_TOKEN=that_token`
