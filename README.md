@@ -49,6 +49,16 @@ Install
 1. `heroku config add DROPBOX_TOKEN=that_token`
 
 
+Adding Auth
+-----------
+
+Droppy supports HTTP Basic auth. To add it, just add the following two environment variables (to `.env` or `heroku config:add`):
+
+```
+AUTH_USERNAME=user
+AUTH_PASSWORD=pass
+```
+
 Debugging
 ---------
 
