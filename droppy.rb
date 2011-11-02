@@ -1,6 +1,12 @@
 require 'sinatra'
 require 'dropbox_sdk'
 
+if ENV["AUTH_USERNAME"] && ENV["AUTH_PASSWORD"]
+  use Rack::Auth::Basic do |username, password|
+    username == ENV["AUTH_USERNAME"] && password == ENV["AUTH_PASSWORD"]
+  end
+end
+
 configure do
   enable :sessions
 end
