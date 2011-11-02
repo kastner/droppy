@@ -24,8 +24,8 @@ end
 # Get the dropbox auth token
 before do
   @nav = {
-    '/'       => 'Home',
-    '/files'  => 'Files'
+    '/'       => 'Files',
+    '/about'  => 'About'
   }
   
   @client = nil
@@ -49,16 +49,16 @@ def start_auth_flow
 end
 
 get '/' do
-  erb :index
-end
-
-get '/files' do
   begin
     @files = @client.metadata("/" + dropbox_path)
     erb :files
   rescue DropboxAuthError
     start_auth_flow
   end
+end
+
+get '/about' do
+  erb :about
 end
 
 get '/get/:file' do
