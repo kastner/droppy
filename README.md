@@ -3,6 +3,23 @@ Droppy
 
 A simple web app for watching a folder on dropbox and providing links to download what's in there.
 
+
+Why
+---
+
+Dropbox has public folders, so why this?
+There's a few reasons:
+
+* You control it... it's your web, and everything that entails (like your own SSO?)
+* Auth baked in
+* Runs on the free heroku offer
+
+
+Picture!
+--------
+
+![Pretty!](http://metaatem.net/images/droppy_small.png)
+
 Setup
 -----
 
