@@ -3,6 +3,23 @@ Droppy
 
 A simple web app for watching a folder on dropbox and providing links to download what's in there.
 
+
+Why
+---
+
+Dropbox has public folders, so why this?
+There's a few reasons:
+
+* You control it... it's your web, and everything that entails (like your own SSO?)
+* Auth baked in
+* Runs on the free heroku offer
+
+
+Picture!
+--------
+
+![Pretty!](http://metaatem.net/images/droppy_small.png)
+
 Setup
 -----
 
@@ -58,6 +75,25 @@ Droppy supports HTTP Basic auth. To add it, just add the following two environme
 AUTH_USERNAME=user
 AUTH_PASSWORD=pass
 ```
+
+
+Sending Email
+-------------
+
+So you want to alert someone when a new file is there?
+
+Add these to the environment settings (either `.env`, or `heroku config:add`):
+
+* `EMAIL_NOTIFY_LIST` email address to send "to"
+* `GMAIL_USER` Gmail username (with @gmail.com, or whathaveyou)
+* `GMAIL_PASS` Gmail password
+* `DROPPY_URL` Web address for the email to link to
+
+If you're doing this on Heroku, you then need to scale up the clock process:
+
+`heroku scale clock=1`
+
+It will warn you about billing your account. I'm not sure how much it will bill yet.
 
 Debugging
 ---------

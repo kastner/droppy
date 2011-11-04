@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'dropbox_sdk'
+require './droppy_box'
 
 if ENV["AUTH_USERNAME"] && ENV["AUTH_PASSWORD"]
   use Rack::Auth::Basic do |username, password|
@@ -15,42 +15,29 @@ helpers do
   def base_url
     @base_url ||= "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
   end
-
-  def dropbox_path
-    @dropbox_path ||= (ENV["DROPBOX_PATH"] || "droppy")
-  end
 end
 
-# Get the dropbox auth token
 before do
   @nav = {
     '/'       => 'Files',
     '/about'  => 'About'
   }
-  
-  @client = nil
-  @session = DropboxSession.new(ENV["DROPBOX_KEY"], ENV["DROPBOX_SECRET"])
 
-  if ENV["DROPBOX_TOKEN"]
-    (key, secret) = ENV["DROPBOX_TOKEN"].split(":")
-    @session.set_access_token(key, secret)
-    db_type = (ENV["DROPBOX_TYPE"]) ? ENV["DROPBOX_TYPE"].to_sym : :dropbox
-    @client = DropboxClient.new(@session, db_type)
-  end
+  @droppy_box = DroppyBox.new
 
-  start_auth_flow unless @client or request.path.match(%r{/auth})
+  start_auth_flow unless @droppy_box.client? or request.path.match(%r{/auth})
 end
 
 def start_auth_flow
-  @session.clear_access_token
-  request_token = @session.get_request_token
+  @droppy_box.session.clear_access_token
+  request_token = @droppy_box.session.get_request_token
   session[:request_token] = request_token
-  redirect @session.get_authorize_url(url('/auth'))
+  redirect @droppy_box.session.get_authorize_url(url('/auth'))
 end
 
 get '/' do
   begin
-    @files = @client.metadata("/" + dropbox_path)
+    @files = @droppy_box.client.metadata("/" + @droppy_box.path)
     erb :files
   rescue DropboxAuthError
     start_auth_flow
@@ -62,14 +49,14 @@ get '/about' do
 end
 
 get '/get/:file' do
-  path = File.join(dropbox_path, params[:file])
-  redirect @client.media(File.join(dropbox_path, params[:file]))["url"]
+  path = File.join(@droppy_box.path, params[:file])
+  redirect @droppy_box.client.media(File.join(@droppy_box.path, params[:file]))["url"]
 end
 
 get '/auth' do
   if request_token = session[:request_token]
-    @session.set_request_token(request_token.key, request_token.secret)
-    token = @session.get_access_token
+    @droppy_box.session.set_request_token(request_token.key, request_token.secret)
+    token = @droppy_box.session.get_access_token
     erb "Here is your DROPBOX_TOKEN=#{token.key}:#{token.secret}"
   else
     erb "Sorry, must have expired"
