@@ -41,7 +41,7 @@ handler do |job|
     end
     
     if new_files && ! new_files.empty?
-      subject = "some New file#{"s" if new_files.count > 1} ready to download: #{new_files.join(", ")}"
+      subject = "New file#{"s" if new_files.count > 1} ready to download: #{new_files.join(", ")}"
       body = "Get them here:"
       new_files.each do |file|
         body += "\n\t#{ENV["DROPPY_URL"]}/get/#{file}"

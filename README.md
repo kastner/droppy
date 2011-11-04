@@ -89,6 +89,12 @@ Add these to the environment settings (either `.env`, or `heroku config:add`):
 * `GMAIL_PASS` Gmail password
 * `DROPPY_URL` Web address for the email to link to
 
+If you're doing this on Heroku, you then need to scale up the clock process:
+
+`heroku scale clock=1`
+
+It will warn you about billing your account. I'm not sure how much it will bill yet.
+
 Debugging
 ---------
 
