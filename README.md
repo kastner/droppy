@@ -76,6 +76,19 @@ AUTH_USERNAME=user
 AUTH_PASSWORD=pass
 ```
 
+
+Sending Email
+-------------
+
+So you want to alert someone when a new file is there?
+
+Add these to the environment settings (either `.env`, or `heroku config:add`):
+
+* `EMAIL_NOTIFY_LIST` email address to send "to"
+* `GMAIL_USER` Gmail username (with @gmail.com, or whathaveyou)
+* `GMAIL_PASS` Gmail password
+* `DROPPY_URL` Web address for the email to link to
+
 Debugging
 ---------
 
