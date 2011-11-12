@@ -77,6 +77,18 @@ AUTH_PASSWORD=pass
 ```
 
 
+FREE SSL on heroku!
+-------------------
+
+Heroku offers free ["Piggy-back"](http://devcenter.heroku.com/articles/ssl) ssl on "heroku.com" subdomains. All you need to do is this:
+
+```
+heroku addons:add piggyback_ssl
+```
+
+And boom, you can now use https for all of it :)
+
+
 Sending Email
 -------------
 
