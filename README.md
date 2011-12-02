@@ -105,7 +105,7 @@ If you're doing this on Heroku, you then need to scale up the clock process:
 
 `heroku scale clock=1`
 
-It will warn you about billing your account. I'm not sure how much it will bill yet.
+It will warn you about billing your account. This is real :). A month for me cost around $30.
 
 Debugging
 ---------
